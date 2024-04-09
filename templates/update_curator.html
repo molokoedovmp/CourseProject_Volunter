@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Curator</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Curator</h1>
+        <form action="{{ url_for('update_curator', curator_id=curator.curator_id) }}" method="POST">
+            <label for="name">Имя:</label>
+            <input type="text" name="name" id="name" value="{{ curator.name }}" required>
+            <br>
+            <label for="surname">Фамилия:</label>
+            <input type="text" name="surname" id="surname" value="{{ curator.surname }}" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="{{ curator.email }}" required>
+            <br>
+            <label for="messengers">Мессенджеры:</label>
+            <input type="text" name="messengers" id="messengers" value="{{ curator.messengers }}" required>
+            <br>
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Crud Волонтеры
+{% endblock %}
+
+{% block body %}
+<html>
+<head>
+    <title>CRUD События</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="table-container">
+            <h1>События</h1>
+        <div class="search-form">
+            <form action="{{ url_for('search_events') }}" method="POST">
+                <input class="search-input" type="text" name="search_query" placeholder="Поиск..." required>
+                <button class="search-button" type="submit">Найти</button>
+            </form>
+        </div>
+
+        <table>
+            <tr>
+                <th>Название</th>
+                <th>Дата</th>
+                <th>Время начала</th>
+                <th>Время окончания</th>
+                <th>Количество</th>
+                <th>Навыки</th>
+                <th>Адрес</th>
+                <th>Статус</th>
+                <th>Куратор</th>
+                <th>Действия</th>
+            </tr>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.name }}</td>
+                <td>{{ event.date }}</td>
+                <td>{{ event.time_start }}</td>
+                <td>{{ event.time_end }}</td>
+                <td>{{ event.amount }}</td>
+                <td>
+                    {% for skill in skills %}
+                        {% if skill.skill_id == event.skill_id %}
+                            {{ skill.name }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ event.address }}</td>
+                <td>
+                    {% for status in statuses %}
+                        {% if status.status_id == event.status_id %}
+                            {{ status.name }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ event.curator.name }}, {{ event.curator.surname }}</td>
+                <td>
+                    <a href="/update/event/{{ event.event_id }}">Редактировать</a>
+                    <a href="/delete/event/{{ event.event_id }}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="form-container">
+        <h3>Добавление</h3>
+        <form action="/create/event" method="POST">
+            <label for="name">Название:</label>
+            <input type="text" name="name" id="name" required>
+            <br>
+            <label for="date">Дата:</label>
+            <input type="date" name="date" id="date" required>
+            <br>
+            <label for="time_start">Время начала:</label>
+            <input type="time" name="time_start" id="time_start" required>
+            <br>
+            <label for="time_end">Время окончания:</label>
+            <input type="time" name="time_end" id="time_end" required>
+            <br>
+            <label for="amount">Количество:</label>
+            <input type="number" name="amount" id="amount" required>
+            <br>
+            <label for="skill_id">Навыки:</label>
+            <select name="skill_id" id="skill_id" required>
+                {% for skill in skills %}
+                    <option value="{{ skill.skill_id }}">{{ skill.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="address">Адрес:</label>
+            <input type="text" name="address" id="address" required>
+            <br>
+            <label for="status_id">Статус:</label>
+            <select name="status_id" id="status_id" required>
+                {% for status in statuses %}
+                    <option value="{{ status.status_id }}">{{ status.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="curator_id">Куратор:</label>
+            <select name="curator_id" id="curator_id" required>
+                {% for curator in curators %}
+                    <option value="{{ curator.curator_id }}">{{ curator.surname }}, {{ curator.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <div class="form-actions">
+                <input class="submit-button" type="submit" value="Отправить">
+            </div>
+        </form>
+        <form class="export-form" action="{{ url_for('export_events') }}" method="GET">
+            <button class="export-button" type="submit">Экспортировать в Excel</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

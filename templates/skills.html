@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+CRUD Навыки
+{% endblock %}
+
+{% block body %}
+<html>
+<head>
+    <title>Навыки</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="table-container">
+            <h1>Навыки</h1>
+
+            <div class="search-form">
+                <form action="{{ url_for('search_skills') }}" method="POST">
+                    <input class="search-input" type="text" name="search_query" placeholder="Поиск..." required>
+                    <button class="search-button" type="submit">Найти</button>
+                </form>
+            </div>
+
+            <table style="width: 100%;">
+                <tr>
+                    <th>Название</th>
+                    <th>Действия</th>
+                </tr>
+                {% for skill in skills %}
+                <tr>
+                    <td>{{ skill.name }}</td>
+                    <td>
+                        <a href="/update/skill/{{ skill.skill_id }}">Редактировать</a>
+                        <a href="/delete/skill/{{ skill.skill_id }}">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="form-container">
+            <h3>Добавление</h3>
+            <form action="/create/skill" method="POST">
+                <label for="name">Название:</label>
+                <input type="text" name="name" id="name" required>
+                <div class="form-actions">
+                    <input class="submit-button" type="submit" value="Отправить">
+                </div>
+            </form>
+            <form class="export-form" action="{{ url_for('export_skills') }}" method="GET">
+                <button class="export-button" type="submit">Экспортировать в Excel</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

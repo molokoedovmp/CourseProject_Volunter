@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Crud Волонтеры
+{% endblock %}
+
+{% block body %}
+
+<html>
+<head>
+    <title>Волонтеры</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="table-container">
+            <h1>Волонтеры</h1>
+        <div class="search-form">
+            <form action="{{ url_for('search_volunteers') }}" method="POST">
+                <input class="search-input" type="text" name="search_query" placeholder="Поиск..." required>
+                <button class="search-button" type="submit">Найти</button>
+            </form>
+        </div>
+
+        <table style="width: 100%;">
+            <tr>
+                <th>Мероприятие</th>
+                <th>Cтудент</th>
+                <th>Оценка</th>
+                <th>Комментарий</th>
+                <th>Действие</th>
+            </tr>
+            {% for volunteer in volunteers %}
+            <tr>
+                <td>{{ volunteer.event.name }}</td>
+                <td>{{ volunteer.student.name, volunteer.student.surname}}</td>
+                <td>{{ volunteer.grade }}</td>
+                <td>{{ volunteer.comment }}</td>
+                <td>
+                    <a href="/update/volunteer/{{ volunteer.volunteer_id }}">Edit</a>
+                    <a href="/delete/volunteer/{{ volunteer.volunteer_id }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+    </table>
+    </div>
+
+    <div class="form-container">
+        <h3>Добавление</h3>
+        <form action="/create/volunteer" method="POST">
+            <label for="event_id">Мероприятие:</label>
+            <select name="event_id" id="event_id" required>
+                {% for event in events %}
+                <option value="{{ event.event_id }}">{{ event.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="student_id">Студент:</label>
+            <select name="student_id" id="student_id" required>
+                {% for student in students %}
+                <option value="{{ student.student_id }}">{{ student.surname, student.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="grade">Оценка:</label>
+            <input type="text" name="grade" id="grade" required>
+            <label for="comment">Комментарий:</label>
+            <input type="text" name="comment" id="comment" required>
+            <div class="form-actions">
+                <input class="submit-button" type="submit" value="Отправить">
+            </div>
+        </form>
+        <form class="export-form" action="{{ url_for('export_volunteers') }}" method="GET">
+            <button class="export-button" type="submit">Экспортировать в Excel</button>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
+{% endblock %}

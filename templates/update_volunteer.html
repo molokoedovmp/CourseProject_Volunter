@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Volunteer</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Volunteer</h1>
+        <form action="{{ url_for('update_volunteer', volunteer_id=volunteer.volunteer_id) }}" method="POST">
+            <label for="event_id">Event ID:</label>
+            <input type="text" name="event_id" id="event_id" value="{{ volunteer.event_id }}" required>
+            <br>
+            <label for="student_id">Student ID:</label>
+            <input type="text" name="student_id" id="student_id" value="{{ volunteer.student_id }}" required>
+            <br>
+            <label for="grade">Grade:</label>
+            <input type="text" name="grade" id="grade" value="{{ volunteer.grade }}" required>
+            <br>
+            <label for="comment">Comment:</label>
+            <input type="text" name="comment" id="comment" value="{{ volunteer.comment }}" required>
+            <br>
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</body>
+</html>

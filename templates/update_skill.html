@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактирование навыка</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Редактирование навыка</h1>
+        <form action="{{ url_for('update_skill', skill_id=skill.skill_id) }}" method="POST">
+            <label for="name">Название:</label>
+            <input type="text" name="name" id="name" value="{{ skill.name }}" required>
+            <br>
+            <input type="submit" value="Обновить">
+        </form>
+    </div>
+</body>
+</html>

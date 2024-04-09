@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Crud Студенты
+{% endblock %}
+
+{% block body %}
+<html>
+<head>
+    <title>Кураторы</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="table-container">
+            <h1>Кураторы</h1>
+
+            <div class="search-form">
+                <form action="{{ url_for('search_curators') }}" method="POST">
+                    <input class="search-input" type="text" name="search_query" placeholder="Поиск..." required>
+                    <button class="search-button" type="submit">Найти</button>
+                </form>
+            </div>
+
+            <table style="width: 100%;">
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Email</th>
+                    <th>Мессенджеры</th>
+                    <th>Действия</th>
+                </tr>
+                {% for curator in curators %}
+                <tr>
+                    <td>{{ curator.name }}</td>
+                    <td>{{ curator.surname }}</td>
+                    <td>{{ curator.email }}</td>
+                    <td>{{ curator.messengers }}</td>
+                    <td>
+                        <a href="/update/curator/{{ curator.curator_id }}">Редактировать</a>
+                        <a href="/delete/curator/{{ curator.curator_id }}">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="form-container">
+            <h3>Добавление</h3>
+            <form action="/create/curator" method="POST">
+                <label for="name">Имя:</label>
+                <input type="text" name="name" id="name" required>
+                <label for="surname">Фамилия:</label>
+                <input type="text" name="surname" id="surname" required>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+                <label for="messengers">Мессенджеры:</label>
+                <input type="text" name="messengers" id="messengers" required>
+                <div class="form-actions">
+                    <input class="submit-button" type="submit" value="Отправить">
+                </div>
+            </form>
+            <form class="export-form" action="{{ url_for('export_curators') }}" method="GET">
+                <button class="export-button" type="submit">Экспортировать в Excel</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
+
+
+

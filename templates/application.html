@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>Заявки</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="form-container">
+    <h3>Оставить заявку</h3>
+    <form action="/create" method="POST">
+        <label for="name">Имя:</label>
+        <input type="text" name="name" id="name" required>
+        <label for="surname">Фамилия:</label>
+        <input type="text" name="surname" id="surname" required>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+        <div class="form-actions">
+            <input class="submit-button" type="submit" value="Отправить">
+        </div>
+    </form>
+</div>
+</body>
+</html>

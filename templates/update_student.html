@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактирование студента</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Редактирование студента</h1>
+        <form action="{{ url_for('update_student', student_id=student.student_id) }}" method="POST">
+            <label for="name">Имя:</label>
+            <input type="text" name="name" id="name" value="{{ student.name }}" required>
+            <br>
+            <label for="surname">Фамилия:</label>
+            <input type="text" name="surname" id="surname" value="{{ student.surname }}" required>
+            <br>
+            <label for="course_id">Курс:</label>
+            <select name="course_id" id="course_id" required>
+                {% for course in courses %}
+                    {% if course.course_id == student.course_id %}
+                        <option value="{{ course.course_id }}" selected>{{ course.name }}</option>
+                    {% else %}
+                        <option value="{{ course.course_id }}">{{ course.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <br>
+            <label for="messengers">Мессенджеры:</label>
+            <input type="text" name="messengers" id="messengers" value="{{ student.messengers }}" required>
+            <br>
+            <input type="submit" value="Обновить">
+        </form>
+    </div>
+</body>
+</html>
